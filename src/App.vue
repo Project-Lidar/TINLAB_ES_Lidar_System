@@ -8,7 +8,7 @@
 export default {
   name: "App",
   mounted() {
-    this.$mqtt.subscribe("/a topic"); //subscribe to a topic
+    //this.$mqtt.subscribe("/a topic"); //subscribe to a topic
   }
 };
 </script>
