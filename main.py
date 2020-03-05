@@ -1,8 +1,9 @@
 import threading
+import multiprocessing
 import time
 
 try:
-    while(true):
-        sleep(0.5)
+    while(True):
+        time.sleep(0.5)
 except KeyboardInterrupt:
-    sleep(0.2)
+    time.sleep(0.2)
