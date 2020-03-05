@@ -9,6 +9,7 @@
           src="https://www.youtube.com/embed/8uGS11yuVyo"
         ></b-embed>
       </b-col>
+
       <b-col id="map">
         <h4 align="left"><b>Lidar map</b></h4>
         <b-embed
@@ -18,11 +19,27 @@
         ></b-embed>
       </b-col>
     </b-row>
+
+    <h4 id="BPMTitle" align="left"><b>Detected person info</b></h4>
+    <h5 id="BPMTitle" align="left">
+      BPM: <span>{{ bpm }}</span>
+    </h5>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      bpm: "0"
+    };
+  },
+  methods: {
+    getBPM: function() {
+      //To do: make connection with mqtt and get the bpm
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -38,5 +55,10 @@ export default {};
 
 #container {
   padding-top: 25px;
+}
+
+#BPMTitle {
+  padding-top: 20px;
+  padding-left: 110px;
 }
 </style>
