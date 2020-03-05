@@ -15,7 +15,7 @@
         <b-embed
           type="iframe"
           aspect="16by9"
-          src="https://www.youtube.com/embed/qNdcXUEF7KU"
+          src="https://shiftr.io/BitsNByt3z/Project_Lidar/embed?zoom=1"
         ></b-embed>
       </b-col>
     </b-row>
@@ -33,6 +33,11 @@ export default {
     return {
       bpm: "0"
     };
+  },
+  mqtt: {
+    "/a topic"(data) {
+      this.bpm = data;
+    }
   },
   methods: {
     getBPM: function() {
