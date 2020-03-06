@@ -1,8 +1,12 @@
 import communicationModule.communicationModule as mtq
 import time
+import logging
+import asyncio
 
-mtq1 = mtq.MqttCommunicator()
+mtqq = mtq.MqttCommunicator()
 
-while True:
-    mtq1.send()
-    time.sleep(0.2)
+if __name__ == '__main__':
+    formatter = "[%(asctime)s] %(name)s {%(filename)s:%(lineno)d} %(levelname)s - %(message)s"
+    logging.basicConfig(level=logging.DEBUG, format=formatter)
+    # calling send function in communicationModule.py
+    asyncio.get_event_loop().run_until_complete(mtqq.send('sensor_input'))

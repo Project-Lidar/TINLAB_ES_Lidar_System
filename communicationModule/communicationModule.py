@@ -1,17 +1,26 @@
-import paho.mqtt.client as mqtt
+import logging
+import asyncio
 import ssl
 import json
 
+from hbmqtt.client import MQTTClient
+from hbmqtt.mqtt.constants import QOS_1, QOS_2
+
+
 class MqttCommunicator:
     def __init__(self):
-        mqttc = mqtt.Client()
-        #mqttc.tls_set(ca_certs=None, certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED, tls_version=None)
-        mqttc.username_pw_set("eecfbf0c", "59ea275059b9c893")
-        mqttc.connect("mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io")
-        
+        self.C = MQTTClient('Comm_module')  # Initialize the mqtt client
 
-    def send(self):
-        msg_txt = {'bpm': 50, 'lidar': [0, 20, 10, 70]}
-        txt = json.dumps(msg_txt)
-        infot = self.mqttc.publish(topic="humanMap", payload=txt, qos=0, retain=False)
-        infot.wait_for_publish()
+    @asyncio.coroutine
+    def send(self, k):
+        k = str(k)  # parse input to string
+
+        # connect to mqtt broker
+        yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io')
+        tasks = [
+            asyncio.ensure_future(
+                self.C.publish('sensors/', k.encode(), qos=QOS_2))  # publish message to mqtt broker
+        ]
+        yield from asyncio.wait(tasks)
+        logger.info("messages published")  # logger for development
+        yield from self.C.disconnect()  # disconnect from mqtt broker
