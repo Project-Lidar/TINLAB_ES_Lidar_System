@@ -5,6 +5,7 @@ import Router from "vue-router";
 import Home from "../components/Home.vue";
 import Control from "../components/Control.vue";
 import NavBar from "../components/NavBar.vue";
+import Stats from "../components/Stats.vue";
 import NotFound from "../components/404.vue";
 
 Vue.use(Router);
@@ -24,6 +25,10 @@ let router = new Router({
         {
           path: "control",
           component: Control
+        },
+        {
+          path: "stats",
+          component: Stats
         }
       ]
     },

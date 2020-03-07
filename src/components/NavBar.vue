@@ -16,6 +16,9 @@
       <b-nav-item disabled to="/control" exact exact-active-class="active"
         ><b><font size="5">Controls</font></b></b-nav-item
       >
+      <b-nav-item to="/stats" exact exact-active-class="active"
+        ><b><font size="5">Stats</font></b></b-nav-item
+      >
     </b-nav>
     <router-view></router-view>
   </div>

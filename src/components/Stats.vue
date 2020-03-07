@@ -2,28 +2,37 @@
   <div>
     <b-row id="container">
       <b-col id="stream">
-        <h4 align="left"><b>Camera stream</b></h4>
-        <b-embed
-          type="iframe"
-          aspect="16by9"
-          src="https://www.youtube.com/embed/8uGS11yuVyo"
-        ></b-embed>
-      </b-col>
-
-      <b-col id="map">
-        <h4 align="left"><b>Thermal camera stream</b></h4>
+        <h4 align="left"><b>Shiftr</b></h4>
         <b-embed
           type="iframe"
           aspect="16by9"
           src="https://shiftr.io/BitsNByt3z/Project_Lidar/embed?zoom=1"
         ></b-embed>
       </b-col>
+
+      <b-col id="map">
+        <h4 align="left"><b>Statistics</b></h4>
+        <h5 id="BPMTitle" align="left">
+          Incoming data from Shiftr: <span>{{ mqtt_data }}</span>
+        </h5>
+      </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      mqtt_data: "null"
+    };
+  },
+  mqtt: {
+    sensors(response) {
+      this.mqtt_data = response;
+    }
+  }
+};
 </script>
 
 <style scoped>
