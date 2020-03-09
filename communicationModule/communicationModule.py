@@ -39,7 +39,7 @@ class MqttCommunicator:
 
 def camStream(ip,port):
     # start a thread that will perform motion detection
-	t = threading.Thread(target=cam.detect_motion, args=(32,))
+	t = threading.Thread(target=cam.detect_motion, args=(64,))
 	t.daemon = True
 	t.start()
 
