@@ -4,6 +4,7 @@ import router from "./routes/routes";
 import BootstrapVue from "bootstrap-vue";
 import PortalVue from "portal-vue";
 import VueMqtt from "vue-mqtt";
+import VueGamepad from "vue-gamepad";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -11,6 +12,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 // Vue plugins...
 Vue.use(BootstrapVue);
 Vue.use(PortalVue);
+Vue.use(VueGamepad);
 Vue.use(VueMqtt, "mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io/", {
   clientId: "Web-App",
   username: "f07edbf7",
