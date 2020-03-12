@@ -6,7 +6,7 @@
         <b-embed
           type="iframe"
           aspect="16by9"
-          src="http://145.137.65.63:8000/"
+          src="http://145.24.238.56:8000/"
         ></b-embed>
       </b-col>
 

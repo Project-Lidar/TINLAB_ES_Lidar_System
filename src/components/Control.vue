@@ -2,12 +2,26 @@
   <div>
     <b-row id="container">
       <b-col id="stream">
-        <h4 align="left"><b>Camera stream</b></h4>
-        <b-embed
-          type="iframe"
-          aspect="16by9"
-          src="http://145.137.65.63:8000/"
-        ></b-embed>
+        <div>
+          <b-card no-body>
+            <b-tabs pills card>
+              <b-tab title="Camera">
+                <b-embed
+                  type="iframe"
+                  aspect="16by9"
+                  src="http://145.24.238.56:8000/"
+                ></b-embed>
+              </b-tab>
+              <b-tab title="Thermal camera"
+                ><b-embed
+                  type="iframe"
+                  aspect="16by9"
+                  src="http://145.137.65.63:8000/"
+                ></b-embed
+              ></b-tab>
+            </b-tabs>
+          </b-card>
+        </div>
       </b-col>
 
       <b-col align="left" id="controls">
@@ -29,7 +43,7 @@
             >Manual driving</b-form-radio
           >
         </b-form-group>
-        <h4><b>Manual controls</b></h4>
+        <h4 id="manualControlTitle"><b>Manual controls</b></h4>
         <b-button
           squared
           v-on:click="publishController_A"
@@ -68,6 +82,10 @@
           v-gamepad:left-analog-right.repeat="publishController_Joy_Right"
           >Joy Right</b-button
         >
+        <!-- <b-button squared v-on:click="test">Shing</b-button> -->
+        <h6 id="ConnectGamepadTitle">
+          Controller is: <span>{{ connectedGamepad }}</span>
+        </h6>
       </b-col>
     </b-row>
   </div>
@@ -79,9 +97,11 @@ export default {
     return {
       selected: "M",
       button: "",
-      joy: 0
+      joy: 0,
+      connectedGamepad: "Disconnected"
     };
   },
+  computed: {},
   methods: {
     publish() {
       this.$mqtt.publish("controls/driving", this.selected);
@@ -89,28 +109,34 @@ export default {
     publishController_A() {
       this.button = "Acceleration(X/R2) is pressed";
       this.$mqtt.publish("controls/manual/controller", this.button);
+      this.connectedGamepad = "Connected";
     },
     publishController_O() {
       this.button = "Brake(O/L2) is pressed";
       this.$mqtt.publish("controls/manual/controller", this.button);
+      this.connectedGamepad = "Connected";
     },
     publishController_Left() {
       this.button = "D-pad Left is pressed";
       this.$mqtt.publish("controls/manual/controller", this.button);
+      this.connectedGamepad = "Connected";
     },
     publishController_Right() {
       this.button = "D-pad Right is pressed";
       this.$mqtt.publish("controls/manual/controller", this.button);
+      this.connectedGamepad = "Connected";
     },
     publishController_Joy_Left() {
       this.joy--;
       this.$mqtt.publish("controls/manual/controller", String(this.joy));
       this.joy = 0;
+      this.connectedGamepad = "Connected";
     },
     publishController_Joy_Right() {
       this.joy++;
       this.$mqtt.publish("controls/manual/controller", String(this.joy));
       this.joy = 0;
+      this.connectedGamepad = "Connected";
     }
   },
   mqtt: {
@@ -136,5 +162,9 @@ export default {
 
 #container {
   padding-top: 25px;
+}
+
+#manualControlTitle {
+  padding-top: 30px;
 }
 </style>
