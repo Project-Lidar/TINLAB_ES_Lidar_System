@@ -5,14 +5,14 @@
         <div>
           <b-card no-body>
             <b-tabs pills card>
-              <b-tab title="Camera">
+              <b-tab :active="activeTabCam" title="Camera">
                 <b-embed
                   type="iframe"
                   aspect="16by9"
                   src="http://145.24.238.56:8000/"
                 ></b-embed>
               </b-tab>
-              <b-tab title="Thermal camera"
+              <b-tab :active="activeTabTherm" title="Thermal camera"
                 ><b-embed
                   type="iframe"
                   aspect="16by9"
@@ -25,67 +25,141 @@
       </b-col>
 
       <b-col align="left" id="controls">
-        <h4><b>Controls</b></h4>
+        <h4><b>Driving Controls</b></h4>
 
         <b-form-group>
           <b-form-radio
             v-model="selected"
-            v-on:change="publish"
+            v-on:change="
+              publish();
+              toggler();
+            "
             name="some-radios"
             value="M"
             >Autonomous driving</b-form-radio
           >
           <b-form-radio
             v-model="selected"
-            v-on:change="publish"
+            v-on:change="
+              publish();
+              toggler();
+            "
             name="some-radios"
             value="A"
             >Manual driving</b-form-radio
           >
         </b-form-group>
+
         <h4 id="manualControlTitle"><b>Manual controls</b></h4>
+        <h5 id="touchControls"><b>Touch/Click Controls</b></h5>
+
         <b-button
+          id="x-button"
+          :class="{ active: interval }"
+          @mousedown="startA"
+          @mouseleave="stop"
+          @mouseup="stop"
+          @touchstart="startA"
+          @touchend="stop"
+          @touchcancel="stop"
           squared
-          v-on:click="publishController_A"
+          variant="dark"
+          size="lg"
+          :disabled="manualToggle"
+          v-on:click="publishButton_A"
           v-gamepad:button-a="publishController_A"
           v-gamepad:trigger-right="publishController_A"
-          >X</b-button
-        >
+          ><b-icon icon="x" shift-v="-1.5"></b-icon
+        ></b-button>
+
         <b-button
+          id="o-button"
+          :class="{ active: interval }"
+          @mousedown="startB"
+          @mouseleave="stop"
+          @mouseup="stop"
+          @touchstart="startB"
+          @touchend="stop"
+          @touchcancel="stop"
           squared
-          v-on:click="publishController_O"
-          v-gamepad:button-b="publishController_O"
-          v-gamepad:trigger-left="publishController_O"
-          >O</b-button
-        >
+          size="lg"
+          :disabled="manualToggle"
+          v-on:click="publishButton_B"
+          v-gamepad:button-b="publishController_B"
+          v-gamepad:trigger-left="publishController_B"
+          ><b-icon icon="circle" shift-v="-1.5"></b-icon
+        ></b-button>
+
         <b-button
+          id="left-button"
+          :class="{ active: interval }"
+          @mousedown="startL"
+          @mouseleave="stop"
+          @mouseup="stop"
+          @touchstart="startL"
+          @touchend="stop"
+          @touchcancel="stop"
           squared
-          v-on:click="publishController_Left"
+          variant="dark"
+          size="lg"
+          :disabled="manualToggle"
+          v-on:click="publishButton_Left"
           v-gamepad:button-dpad-left="publishController_Left"
-          >left</b-button
-        >
+          ><b-icon icon="arrow-left" shift-v="-1.5"></b-icon
+        ></b-button>
+
         <b-button
+          id="right-button"
+          :class="{ active: interval }"
+          @mousedown="startR"
+          @mouseleave="stop"
+          @mouseup="stop"
+          @touchstart="startR"
+          @touchend="stop"
+          @touchcancel="stop"
           squared
-          v-on:click="publishController_Right"
+          size="lg"
+          :disabled="manualToggle"
+          v-on:click="publishButton_Right"
           v-gamepad:button-dpad-right="publishController_Right"
-          >right</b-button
-        >
-        <b-button
-          squared
-          v-on:click="publishController_Joy_Left"
+          ><b-icon icon="arrow-right" shift-v="-1.5"></b-icon
+        ></b-button>
+
+        <ul
           v-gamepad:left-analog-left.repeat="publishController_Joy_Left"
-          >Joy Left</b-button
-        >
-        <b-button
-          squared
-          v-on:click="publishController_Joy_Right"
           v-gamepad:left-analog-right.repeat="publishController_Joy_Right"
-          >Joy Right</b-button
-        >
-        <!-- <b-button squared v-on:click="test">Shing</b-button> -->
-        <h6 id="ConnectGamepadTitle">
-          Controller is: <span>{{ connectedGamepad }}</span>
-        </h6>
+          v-gamepad:shoulder-right="tabToggleToTherm"
+          v-gamepad:shoulder-left="tabToggleToCam"
+        ></ul>
+
+        <p id="ConnectGamepadTitle">
+          <b-icon icon="controller" shift-v="-4" font-scale="2.5"></b-icon>:
+          <span>{{ connectedGamepad }}</span>
+        </p>
+
+        <h5><b>Gamepad Controls</b></h5>
+
+        <p>
+          R2 /<b-icon icon="x" shift-v="-1.5" font-scale="1.5"></b-icon>:
+          Acceleration
+        </p>
+
+        <p>
+          L2 / <b-icon icon="circle" shift-v="1.5" font-scale="1"></b-icon> :
+          Brake
+        </p>
+
+        <p>
+          Left d-pad /
+          <b-icon icon="arrow-left" shift-v="-1.7" font-scale="1.7"></b-icon>:
+          Steer left
+        </p>
+
+        <p>
+          Right d-pad /
+          <b-icon icon="arrow-right" shift-v="-1.7" font-scale="1.7"></b-icon>:
+          Steer right
+        </p>
       </b-col>
     </b-row>
   </div>
@@ -98,10 +172,13 @@ export default {
       selected: "M",
       button: "",
       joy: 0,
-      connectedGamepad: "Disconnected"
+      connectedGamepad: "Disconnected",
+      manualToggle: true,
+      interval: false,
+      activeTabCam: true,
+      activeTabTherm: false
     };
   },
-  computed: {},
   methods: {
     publish() {
       this.$mqtt.publish("controls/driving", this.selected);
@@ -111,7 +188,7 @@ export default {
       this.$mqtt.publish("controls/manual/controller", this.button);
       this.connectedGamepad = "Connected";
     },
-    publishController_O() {
+    publishController_B() {
       this.button = "Brake(O/L2) is pressed";
       this.$mqtt.publish("controls/manual/controller", this.button);
       this.connectedGamepad = "Connected";
@@ -137,6 +214,68 @@ export default {
       this.$mqtt.publish("controls/manual/controller", String(this.joy));
       this.joy = 0;
       this.connectedGamepad = "Connected";
+    },
+    publishButton_A() {
+      this.button = "Acceleration(X/R2) is pressed";
+      this.$mqtt.publish("controls/manual/controller", this.button);
+    },
+    publishButton_B() {
+      this.button = "Brake(O/L2) is pressed";
+      this.$mqtt.publish("controls/manual/controller", this.button);
+    },
+    publishButton_Left() {
+      this.button = "D-pad Left is pressed";
+      this.$mqtt.publish("controls/manual/controller", this.button);
+    },
+    publishButton_Right() {
+      this.button = "D-pad Right is pressed";
+      this.$mqtt.publish("controls/manual/controller", this.button);
+    },
+    toggler() {
+      if (this.manualToggle == true) {
+        this.manualToggle = false;
+      } else if (this.manualToggle == false) {
+        this.manualToggle = true;
+      }
+    },
+    tabToggleToTherm() {
+      if (this.activeTabCam == true) {
+        this.activeTabCam = false;
+        this.activeTabTherm = true;
+      }
+    },
+    tabToggleToCam() {
+      if (this.activeTabTherm == true) {
+        this.activeTabTherm = false;
+        this.activeTabCam = true;
+      }
+    },
+    startA() {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.publishButton_A(), 30);
+      }
+    },
+    startB() {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.publishButton_B(), 30);
+      }
+    },
+    startL() {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.publishButton_Left(), 30);
+      }
+    },
+    startR() {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.publishButton_Right(), 30);
+      }
+    },
+    stop() {
+      clearInterval(this.interval);
+      this.interval = false;
+    },
+    onLoad() {
+      <b-spinner label="Loading..."></b-spinner>;
     }
   },
   mqtt: {
@@ -166,5 +305,18 @@ export default {
 
 #manualControlTitle {
   padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+#touchControls {
+  padding-bottom: 25px;
+}
+
+#ConnectGamepadTitle {
+  padding-top: 20px;
+}
+
+#testb {
+  user-select: none;
 }
 </style>
