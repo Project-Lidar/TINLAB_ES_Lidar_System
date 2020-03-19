@@ -4,6 +4,7 @@ import json
 import threading
 import socket
 import argparse
+import unittest
 import datetime
 import imutils
 import time
@@ -14,10 +15,8 @@ from imutils.video import VideoStream
 from flask import Response
 from flask import Flask
 from flask import render_template
-from hbmqtt.client import MQTTClient
-from hbmqtt.mqtt.constants import QOS_1, QOS_2
-
-
+from hbmqtt.client import MQTTClient, ClientException
+from hbmqtt.mqtt.constants import QOS_0, QOS_1, QOS_2
 
 class MqttCommunicator:
     def __init__(self):
@@ -36,6 +35,23 @@ class MqttCommunicator:
         yield from asyncio.wait(tasks)
         #logger.info("messages published")  # logger for development
         yield from self.C.disconnect()  # disconnect from mqtt broker
+    
+    @asyncio.coroutine
+    def receive(self):
+        yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io')
+        yield from self.C.subscribe([
+            ('sensors/', QOS_0),
+        ])
+        try:
+            for i in range(1, 100):
+                message = yield from self.C.deliver_message()
+                packet = message.publish_packet
+                print("%d:  %s => %s" % (i, packet.variable_header.topic_name, str(packet.payload.data)))
+            yield from self.C.unsubscribe(['sensors/'])
+            yield from self.C.disconnect()
+
+        except ClientException as ce:
+            print('kk')
 
 def camStream(ip,port):
     # start a thread that will perform motion detection
@@ -46,3 +62,4 @@ def camStream(ip,port):
 	# start the flask app
 	cam.app.run(host=ip, port=port, debug=True,
 		threaded=True, use_reloader=False)
+
