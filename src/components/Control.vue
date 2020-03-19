@@ -185,51 +185,51 @@ export default {
     },
     publishController_A() {
       this.button = "Acceleration(X/R2) is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_B() {
       this.button = "Brake(O/L2) is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_Left() {
       this.button = "D-pad Left is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/steer", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_Right() {
       this.button = "D-pad Right is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/steer", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_Joy_Left() {
       this.joy--;
-      this.$mqtt.publish("controls/manual/controller", String(this.joy));
+      this.$mqtt.publish("controls/manual/controller/steer", String(this.joy));
       this.joy = 0;
       this.connectedGamepad = "Connected";
     },
     publishController_Joy_Right() {
       this.joy++;
-      this.$mqtt.publish("controls/manual/controller", String(this.joy));
+      this.$mqtt.publish("controls/manual/controller/steer", String(this.joy));
       this.joy = 0;
       this.connectedGamepad = "Connected";
     },
     publishButton_A() {
       this.button = "Acceleration(X/R2) is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
     },
     publishButton_B() {
       this.button = "Brake(O/L2) is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
     },
     publishButton_Left() {
       this.button = "D-pad Left is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/steer", this.button);
     },
     publishButton_Right() {
       this.button = "D-pad Right is pressed";
-      this.$mqtt.publish("controls/manual/controller", this.button);
+      this.$mqtt.publish("controls/manual/controller/steer", this.button);
     },
     toggler() {
       if (this.manualToggle == true) {
@@ -282,7 +282,10 @@ export default {
     "controls/driving"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
     },
-    "controls/manual/controller"(data, topic) {
+    "controls/manual/controller/steer"(data, topic) {
+      console.log(topic + ": " + String.fromCharCode.apply(null, data));
+    },
+    "controls/manual/controller/speed"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
     }
   }
