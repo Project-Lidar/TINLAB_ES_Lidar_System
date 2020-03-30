@@ -32,12 +32,33 @@
         ></b-nav-item
       >
     </b-nav>
+    <b-button
+      id="logoutButton"
+      squared
+      variant="outline-dark"
+      size="sm"
+      @click="handleLogout"
+      >Logout</b-button
+    >
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleLogout() {
+      localStorage.clear();
+      this.$router.push("login");
+    }
+  }
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+#logoutButton {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+</style>

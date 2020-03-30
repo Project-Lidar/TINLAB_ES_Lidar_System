@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./routes/routes";
+import Axios from "axios";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import PortalVue from "portal-vue";
 import VueMqtt from "vue-mqtt";
@@ -19,6 +20,8 @@ Vue.use(VueMqtt, "mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io/", {
   username: "f07edbf7",
   password: "1e4e236c716b17ec"
 });
+
+Vue.prototype.$http = Axios;
 
 Vue.config.productionTip = false;
 
