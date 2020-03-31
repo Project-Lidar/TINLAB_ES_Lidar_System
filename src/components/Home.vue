@@ -15,7 +15,7 @@
         <b-embed
           type="iframe"
           aspect="16by9"
-          src="https://shiftr.io/BitsNByt3z/Project_Lidar/embed?zoom=1"
+          src="http://145.24.238.56:8000/"
         ></b-embed>
       </b-col>
     </b-row>

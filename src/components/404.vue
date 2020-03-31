@@ -1,14 +1,18 @@
 <template>
   <div>
     <h1>404 Page Not Found</h1>
-    <router-link to="/">
-      Go to home
-    </router-link>
+    <b-button @click="goBack" variant="link">Go to home</b-button>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  }
+};
 </script>
 
 <style scoped>

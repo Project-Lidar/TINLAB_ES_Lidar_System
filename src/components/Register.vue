@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h4>Register</h4>
+  <div id="wrapper">
+    <h4>Register a new user</h4>
     <form>
       <label for="name">Name</label>
       <div>
@@ -100,3 +100,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#wrapper {
+  margin: auto;
+  width: 15%;
+  padding-top: 30px;
+}
+</style>

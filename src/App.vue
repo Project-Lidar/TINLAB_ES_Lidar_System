@@ -9,18 +9,15 @@ export default {
   name: "App",
   mounted() {
     this.$mqtt.subscribe("sensors"); //subscribe to a topic
-    console.log("SUBSCRIBED!!!");
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 5px;
 }
 </style>

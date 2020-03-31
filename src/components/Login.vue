@@ -107,27 +107,19 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background: #eef1f4;
-}
-
 #formCard {
   border: none;
 }
 
 h1 {
+  font-family: Agency FB, Helvetica, Arial, sans-serif;
+  font-weight: bold;
   text-align: left;
   padding-top: 20px;
 }
 
-p {
-  position: absolute;
-  bottom: 0;
-  right: 43%;
-}
-
 #sidebarLogo {
   position: absolute;
-  left: 420px;
+  left: 385px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-nav tabs>
+    <b-nav id="navbar" tabs>
       <img
         align="right"
         id="logo"
@@ -40,16 +40,41 @@
       @click="handleLogout"
       >Logout</b-button
     >
+    <b-button
+      id="goBackButton"
+      squared
+      variant="outline-dark"
+      size="sm"
+      @click="handleGoBack"
+      v-if="show"
+      >Go Back</b-button
+    >
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      show: false
+    };
+  },
   methods: {
     handleLogout() {
       localStorage.clear();
       this.$router.push("login");
+    },
+    handleGoBack() {
+      this.$router.push("admin");
+    }
+  },
+  mounted: function() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    if (user.is_admin == 1) {
+      this.show = true;
+    } else {
+      this.show = false;
     }
   }
 };
@@ -60,5 +85,14 @@ export default {
   position: absolute;
   right: 2px;
   top: 2px;
+}
+#goBackButton {
+  position: absolute;
+  right: 75px;
+  top: 2px;
+}
+#navbar {
+  font-family: Agency FB, Helvetica, Arial, sans-serif;
+  font-weight: bold;
 }
 </style>

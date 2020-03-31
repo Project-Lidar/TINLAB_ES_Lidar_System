@@ -10,6 +10,7 @@ import NotFound from "../components/404.vue";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Admin from "../components/Admin";
+import Dash from "../components/Dashboard";
 
 Vue.use(Router);
 
@@ -57,21 +58,34 @@ let router = new Router({
       }
     },
     {
-      path: "/register",
-      name: "register",
-      component: Register,
-      meta: {
-        guest: true
-      }
-    },
-    {
       path: "/admin",
       name: "admin",
       component: Admin,
+      redirect: "/dash",
       meta: {
         requiresAuth: true,
         is_admin: true
-      }
+      },
+      children: [
+        {
+          path: "/register",
+          name: "register",
+          component: Register,
+          meta: {
+            requiresAuth: true,
+            is_admin: true
+          }
+        },
+        {
+          path: "/dash",
+          name: "dash",
+          component: Dash,
+          meta: {
+            requiresAuth: true,
+            is_admin: true
+          }
+        }
+      ]
     },
     { path: "*", component: NotFound }
   ]
