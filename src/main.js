@@ -15,7 +15,7 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(PortalVue);
 Vue.use(VueGamepad);
-Vue.use(VueMqtt, "mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io/", {
+Vue.use(VueMqtt, "wss://eecfbf0c:59ea275059b9c893@broker.shiftr.io/", {
   clientId: "Web-App",
   username: "f07edbf7",
   password: "1e4e236c716b17ec"
