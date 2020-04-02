@@ -75,7 +75,7 @@ export default {
       e.preventDefault();
       if (this.form.password.length > 0) {
         this.$http
-          .post("http://145.24.222.236:3000/login", {
+          .post("http://localhost:3000/login", {
             email: this.form.email,
             password: this.form.password
           })
