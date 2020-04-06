@@ -24,10 +24,27 @@
           ></b
         ></b-nav-item
       >
+      <b-nav-item to="/map" exact exact-active-class="active"
+        ><b
+          ><font size="5"
+            ><b-icon
+              icon="compass"
+              shift-v="1"
+              style="width: 25px; height: 25px;"
+            ></b-icon>
+            Location</font
+          ></b
+        ></b-nav-item
+      >
       <b-nav-item to="/stats" exact exact-active-class="active"
         ><b
           ><font size="5"
-            ><b-icon icon="columns-gutters" shift-v="-1"></b-icon> Stats</font
+            ><b-icon
+              icon="columns-gap"
+              shift-v="1.5"
+              style="width: 23px; height: 23px;"
+            ></b-icon>
+            Stats</font
           ></b
         ></b-nav-item
       >

@@ -11,6 +11,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import Admin from "../components/Admin";
 import Dash from "../components/Dashboard";
+import Maps from "../components/Map";
 
 Vue.use(Router);
 
@@ -35,6 +36,14 @@ let router = new Router({
           path: "control",
           name: "control",
           component: Control,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: "map",
+          name: "map",
+          component: Maps,
           meta: {
             requiresAuth: true
           }

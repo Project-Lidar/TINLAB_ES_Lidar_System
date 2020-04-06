@@ -6,19 +6,37 @@
           <b-card no-body>
             <b-tabs pills card>
               <b-tab :active="activeTabCam" title="Camera">
-                <b-embed
-                  type="iframe"
-                  aspect="16by9"
-                  src="http://145.24.238.56:8000/"
-                ></b-embed>
+                <b-overlay
+                  :show="show"
+                  rounded="sm"
+                  :variant="variant"
+                  :opacity="opacity"
+                  :blur="blur"
+                >
+                  <b-embed
+                    type="iframe"
+                    aspect="16by9"
+                    src="http://192.168.2.19:8000/"
+                    @load="load"
+                  ></b-embed>
+                </b-overlay>
               </b-tab>
-              <b-tab :active="activeTabTherm" title="Thermal camera"
-                ><b-embed
-                  type="iframe"
-                  aspect="16by9"
-                  src="http://145.137.65.63:8000/"
-                ></b-embed
-              ></b-tab>
+              <b-tab :active="activeTabTherm" title="Thermal camera">
+                <b-overlay
+                  :show="show"
+                  rounded="sm"
+                  :variant="variant"
+                  :opacity="opacity"
+                  :blur="blur"
+                >
+                  <b-embed
+                    type="iframe"
+                    aspect="16by9"
+                    src="http://192.168.2.19:8000/"
+                    @load="load"
+                  ></b-embed
+                ></b-overlay>
+              </b-tab>
             </b-tabs>
           </b-card>
         </div>
@@ -176,7 +194,11 @@ export default {
       manualToggle: true,
       interval: false,
       activeTabCam: true,
-      activeTabTherm: false
+      activeTabTherm: false,
+      show: true,
+      opacity: 0.85,
+      blur: "2px",
+      variant: "transparent",
     };
   },
   methods: {
@@ -274,9 +296,9 @@ export default {
       clearInterval(this.interval);
       this.interval = false;
     },
-    onLoad() {
-      <b-spinner label="Loading..."></b-spinner>;
-    }
+    load: function () {
+      this.show = false;
+    },
   },
   mqtt: {
     "controls/driving"(data, topic) {
@@ -287,8 +309,8 @@ export default {
     },
     "controls/manual/controller/speed"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
-    }
-  }
+    },
+  },
 };
 </script>
 

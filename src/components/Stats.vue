@@ -3,14 +3,23 @@
     <b-row id="container">
       <b-col id="stream">
         <h4 align="left"><b>Shiftr</b></h4>
-        <b-embed
-          type="iframe"
-          aspect="16by9"
-          src="https://shiftr.io/BitsNByt3z/Project_Lidar/embed?zoom=1"
-        ></b-embed>
+        <b-overlay
+          :show="show"
+          rounded="sm"
+          :variant="variant"
+          :opacity="opacity"
+          :blur="blur"
+        >
+          <b-embed
+            type="iframe"
+            aspect="16by9"
+            src="https://shiftr.io/BitsNByt3z/Project_Lidar/embed?zoom=1"
+            @load="load"
+          ></b-embed>
+        </b-overlay>
         <p>Must be logged into shiftr.io to load the content.</p>
         <p align="left">
-          Press assigned gamepad buttons to test input connection with the
+          Press assigned gamepad buttons to test input connection with the mqtt
           broker.
         </p>
       </b-col>
@@ -19,6 +28,10 @@
         <h4 align="left"><b>Statistics</b></h4>
         <h5 id="BPMTitle" align="left">
           Incoming data from Shiftr: <span>{{ mqtt_data }}</span>
+        </h5>
+        <h5 id="BPMTitle" align="left">
+          Incoming RBP IP address data from Shiftr:
+          <span>{{ ip_address }}</span>
         </h5>
       </b-col>
     </b-row>
@@ -40,20 +53,28 @@ export default {
   data() {
     return {
       mqtt_data: "null",
+      ip_address: "null",
       button: "",
-      joy: 0
+      joy: 0,
+      show: true,
+      opacity: 0.85,
+      blur: "2px",
+      variant: "transparent",
     };
   },
   mqtt: {
     sensors(response) {
       this.mqtt_data = response;
     },
+    "location/ip_address"(response) {
+      this.ip_address = response;
+    },
     "controls/manual/controller/steer"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
     },
     "controls/manual/controller/speed"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
-    }
+    },
   },
   methods: {
     publishController_A() {
@@ -81,8 +102,11 @@ export default {
       this.joy++;
       this.$mqtt.publish("controls/manual/controller/steer", String(this.joy));
       this.joy = 0;
-    }
-  }
+    },
+    load: function () {
+      this.show = false;
+    },
+  },
 };
 </script>
 
