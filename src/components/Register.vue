@@ -53,7 +53,7 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
-      is_admin: null
+      is_admin: null,
     };
   },
   methods: {
@@ -64,17 +64,17 @@ export default {
         this.password === this.password_confirmation &&
         this.password.length > 0
       ) {
-        let url = "http://localhost:3000/register";
+        let url = "http://localhost:3000/api/register";
         if (this.is_admin != null || this.is_admin == 1)
-          url = "http://localhost:3000/register-admin";
+          url = "http://localhost:3000/api/register-admin";
         this.$http
           .post(url, {
             name: this.name,
             email: this.email,
             password: this.password,
-            is_admin: this.is_admin
+            is_admin: this.is_admin,
           })
-          .then(response => {
+          .then((response) => {
             localStorage.setItem("user", JSON.stringify(response.data.user));
             localStorage.setItem("jwt", response.data.token);
 
@@ -87,7 +87,7 @@ export default {
               }
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
       } else {
@@ -96,8 +96,8 @@ export default {
 
         return alert("Passwords do not match");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

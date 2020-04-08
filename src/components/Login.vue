@@ -65,9 +65,9 @@ export default {
     return {
       form: {
         email: "",
-        password: ""
+        password: "",
       },
-      show: true
+      show: true,
     };
   },
   methods: {
@@ -75,11 +75,11 @@ export default {
       e.preventDefault();
       if (this.form.password.length > 0) {
         this.$http
-          .post("http://localhost:3000/login", {
+          .post("http://localhost:3000/api/login", {
             email: this.form.email,
-            password: this.form.password
+            password: this.form.password,
           })
-          .then(response => {
+          .then((response) => {
             let is_admin = response.data.user.is_admin;
             localStorage.setItem("user", JSON.stringify(response.data.user));
             localStorage.setItem("jwt", response.data.token);
@@ -101,8 +101,8 @@ export default {
             console.error(error.response);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
