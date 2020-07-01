@@ -46,19 +46,20 @@ class MqttCommunicator:
         yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io/')
         yield from self.C.subscribe([
             # Subscribed to speed topic
-            ('controls/manual/controller/speed', QOS_2),
+            ('controls/manual/controller/speed', QOS_0),
             # Subscribed to steer topic
-            ('controls/manual/controller/steer', QOS_2),
+            ('controls/manual/controller/steer', QOS_0),
             # Subscribed to driving topic
-            ('controls/driving/', QOS_2),
+            ('controls/driving/', QOS_0),
         ])
+        print('hello')
         try:
             # Wait for 100 inputs from the broker before disconnecting and unsubscribing from the broker (for test/dev purposes)
             for i in range(1, 100):
                 message = yield from self.C.deliver_message()
                 packet = message.publish_packet
-                print("%d:  %s => %s" % (
-                    i, packet.variable_header.topic_name, str(packet.payload.data)))
+                print('k')
+                print("%d:  %s => %s" % (i, packet.variable_header.topic_name, str(packet.payload.data)))
             yield from self.C.unsubscribe(['controls/manual/controller/speed', 'controls/manual/controller/steer', 'contols/driving/'])
             yield from self.C.disconnect()
         except ClientException as ce:
@@ -73,4 +74,4 @@ def camStream(ip, port):
 
     # start the flask app
     cam.app.run(host=ip, port=port, debug=True,
-                threaded=True, use_reloader=False)
+                threaded=True, use_reloader=False)#ssl_context='adhoc',
