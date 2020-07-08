@@ -2,59 +2,110 @@
 #Go right -> check lidar
 #Go Left -> check lidar
 #Go back -> Turn -> check lidar -> don't turn -> check lidar
-import l293d.driver as l293d
+import Rpi.GPIO as GPIO
 import time
 
-motorR1 = l293d.DC(3,5,7)
-motorR2 = l293d.DC(36,38,40)
-motorR3 = l293d.DC(11,13,15)
-motorL1 = l293d.DC(12,16,18)
-motorL2 = l293d.DC(19,21,23)
-motorL3 = l293d.DC(22,24,26)
+GPIO.setmode(GPIO.BOARD)
+
+motorR1A = 7
+motorR1B = 11
+motorR2A = 12
+motorR2B = 13
+motorR3A = 15
+motorR3B = 16
+motorL1A = 18
+motorL1B = 22
+motorL2A = 29
+motorL2B = 31
+motorL3A = 32
+motorL3B = 33
+
+GPIO.setup(motorR1A, GPIO.OUT)
+GPIO.setup(motorR1B, GPIO.OUT)
+GPIO.setup(motorR2A, GPIO.OUT)
+GPIO.setup(motorR2B, GPIO.OUT)
+GPIO.setup(motorR3A, GPIO.OUT)
+GPIO.setup(motorR3B, GPIO.OUT)
+GPIO.setup(motorL1A, GPIO.OUT)
+GPIO.setup(motorL1B, GPIO.OUT)
+GPIO.setup(motorL2A, GPIO.OUT)
+GPIO.setup(motorL2B, GPIO.OUT)
+GPIO.setup(motorL3A, GPIO.OUT)
+GPIO.setup(motorL3B, GPIO.OUT)
 
 def drive(duration):
-    motorL1.clockwise(speed=(40,100))
-    motorL2.clockwise(speed=(40,100))
-    motorL3.clockwise(speed=(40,100))
-    motorR1.anticlockwise(speed=(40,100))
-    motorR2.anticlockwise(speed=(40,100))
-    motorR3.anticlockwise(speed=(40,100))
+    GPIO.output(motorR1A, GPIO.LOW)
+    GPIO.output(motorR1B, GPIO.HIGH)
+    GPIO.output(motorR2A, GPIO.LOW)
+    GPIO.output(motorR2B, GPIO.HIGH)
+    GPIO.output(motorR3A, GPIO.LOW)
+    GPIO.output(motorR3B, GPIO.HIGH)
+    GPIO.output(motorL1A, GPIO.HIGH)
+    GPIO.output(motorL1B, GPIO.LOW)
+    GPIO.output(motorL2A, GPIO.HIGH)
+    GPIO.output(motorL2B, GPIO.LOW)
+    GPIO.output(motorL3A, GPIO.HIGH)
+    GPIO.output(motorL3B, GPIO.LOW)
     time.sleep(duration)
 
 def reverse(duration):
-    motorL1.anticlockwise(speed=(40,100))
-    motorL2.anticlockwise(speed=(40,100))
-    motorL3.anticlockwise(speed=(40,100))
-    motorR1.clockwise(speed=(40,100))
-    motorR2.clockwise(speed=(40,100))
-    motorR3.clockwise(speed=(40,100))
+    GPIO.output(motorR1A, GPIO.HIGH)
+    GPIO.output(motorR1B, GPIO.LOW)
+    GPIO.output(motorR2A, GPIO.HIGH)
+    GPIO.output(motorR2B, GPIO.LOW)
+    GPIO.output(motorR3A, GPIO.HIGH)
+    GPIO.output(motorR3B, GPIO.LOW)
+    GPIO.output(motorL1A, GPIO.LOW)
+    GPIO.output(motorL1B, GPIO.HIGH)
+    GPIO.output(motorL2A, GPIO.LOW)
+    GPIO.output(motorL2B, GPIO.HIGH)
+    GPIO.output(motorL3A, GPIO.LOW)
+    GPIO.output(motorL3B, GPIO.HIGH)
     time.sleep(duration)
 
 def turn_right(duration):
-    motorL1.anticlockwise(speed=(40,100))
-    motorL2.anticlockwise(speed=(40,100))
-    motorL3.anticlockwise(speed=(40,100))
-    motorR1.anticlockwise(speed=(40,100))
-    motorR2.anticlockwise(speed=(40,100))
-    motorR3.anticlockwise(speed=(40,100))
+     GPIO.output(motorR1A, GPIO.HIGH)
+    GPIO.output(motorR1B, GPIO.LOW)
+    GPIO.output(motorR2A, GPIO.HIGH)
+    GPIO.output(motorR2B, GPIO.LOW)
+    GPIO.output(motorR3A, GPIO.HIGH)
+    GPIO.output(motorR3B, GPIO.LOW)
+    GPIO.output(motorL1A, GPIO.HIGH)
+    GPIO.output(motorL1B, GPIO.LOW)
+    GPIO.output(motorL2A, GPIO.HIGH)
+    GPIO.output(motorL2B, GPIO.LOW)
+    GPIO.output(motorL3A, GPIO.HIGH)
+    GPIO.output(motorL3B, GPIO.LOW)
     time.sleep(duration)
 
 def turn_left(duration):
-    motorL1.clockwise(speed=(40,100))
-    motorL2.clockwise(speed=(40,100))
-    motorL3.clockwise(speed=(40,100))
-    motorR1.clockwise(speed=(40,100))
-    motorR2.clockwise(speed=(40,100))
-    motorR3.clockwise(speed=(40,100))
+    GPIO.output(motorR1A, GPIO.LOW)
+    GPIO.output(motorR1B, GPIO.HIGH)
+    GPIO.output(motorR2A, GPIO.LOW)
+    GPIO.output(motorR2B, GPIO.HIGH)
+    GPIO.output(motorR3A, GPIO.LOW)
+    GPIO.output(motorR3B, GPIO.HIGH)
+    GPIO.output(motorL1A, GPIO.LOW)
+    GPIO.output(motorL1B, GPIO.HIGH)
+    GPIO.output(motorL2A, GPIO.LOW)
+    GPIO.output(motorL2B, GPIO.HIGH)
+    GPIO.output(motorL3A, GPIO.LOW)
+    GPIO.output(motorL3B, GPIO.HIGH)
     time.sleep(duration)
 
 def park():
-    l293d.cleanup()
+    GPIO.cleanup()
 
 def stop():
-    motorL1.stop()
-    motorL2.stop()
-    motorL3.stop()
-    motorR1.stop()
-    motorR2.stop()
-    motorR3.stop()
+    GPIO.output(motorR1A, GPIO.LOW)
+    GPIO.output(motorR1B, GPIO.LOW)
+    GPIO.output(motorR2A, GPIO.LOW)
+    GPIO.output(motorR2B, GPIO.LOW)
+    GPIO.output(motorR3A, GPIO.LOW)
+    GPIO.output(motorR3B, GPIO.LOW)
+    GPIO.output(motorL1A, GPIO.LOW)
+    GPIO.output(motorL1B, GPIO.LOW)
+    GPIO.output(motorL2A, GPIO.LOW)
+    GPIO.output(motorL2B, GPIO.LOW)
+    GPIO.output(motorL3A, GPIO.LOW)
+    GPIO.output(motorL3B, GPIO.LOW)

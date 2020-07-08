@@ -1,7 +1,9 @@
 import communicationModule.communicationModule as mtq
 import time
+import motorControl.motorLogic as motor
 # import logging
 import asyncio
+import threading
 
 mtqq = mtq.MqttCommunicator()
 
@@ -11,6 +13,9 @@ if __name__ == '__main__':
     # calling send function in communicationModule.py
     # find ipv4 address on arch with command 'ip route show' use the one after 'dhcp src'
     mtq.camStream('192.168.2.19', 8000)
+    
+    thread = threading.Thread(target=motor())
+    thread.start()
 
     # Send data to the mqtt broker
     asyncio.get_event_loop().run_until_complete(mtqq.send('#RIP'))
