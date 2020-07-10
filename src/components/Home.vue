@@ -13,7 +13,7 @@
           <b-embed
             type="iframe"
             aspect="16by9"
-            src="http://192.168.2.19:8000/"
+            src="http://145.137.65.63:8000/"
             @load="load"
           ></b-embed>
         </b-overlay>
@@ -28,12 +28,7 @@
           :opacity="opacity"
           :blur="blur"
         >
-          <b-embed
-            type="iframe"
-            aspect="16by9"
-            src="http://192.168.2.19:8000/"
-            @load="load"
-          ></b-embed>
+          <b-embed type="iframe" aspect="16by9" src="" @load="load"></b-embed>
         </b-overlay>
       </b-col>
     </b-row>
@@ -51,7 +46,7 @@ export default {
     };
   },
   methods: {
-    load: function () {
+    load: function() {
       this.show = false;
     },
   },

@@ -16,7 +16,7 @@
                   <b-embed
                     type="iframe"
                     aspect="16by9"
-                    src="http://192.168.2.19:8000/"
+                    src="http://145.137.65.63:8000/"
                     @load="load"
                   ></b-embed>
                 </b-overlay>
@@ -32,7 +32,7 @@
                   <b-embed
                     type="iframe"
                     aspect="16by9"
-                    src="http://192.168.2.19:8000/"
+                    src="http://145.137.65.63:8000/"
                     @load="load"
                   ></b-embed
                 ></b-overlay>
@@ -109,6 +109,24 @@
         ></b-button>
 
         <b-button
+          id="v-button"
+          :class="{ active: interval }"
+          @mousedown="startV"
+          @mouseleave="stop"
+          @mouseup="stop"
+          @touchstart="startV"
+          @touchend="stop"
+          @touchcancel="stop"
+          squared
+          variant="dark"
+          size="lg"
+          :disabled="manualToggle"
+          v-on:click="publishButton_V"
+          v-gamepad:button-x="publishController_V"
+          ><b-icon icon="square" shift-v="-0.5"></b-icon
+        ></b-button>
+
+        <b-button
           id="left-button"
           :class="{ active: interval }"
           @mousedown="startL"
@@ -118,7 +136,6 @@
           @touchend="stop"
           @touchcancel="stop"
           squared
-          variant="dark"
           size="lg"
           :disabled="manualToggle"
           v-on:click="publishButton_Left"
@@ -136,6 +153,7 @@
           @touchend="stop"
           @touchcancel="stop"
           squared
+          variant="dark"
           size="lg"
           :disabled="manualToggle"
           v-on:click="publishButton_Right"
@@ -165,6 +183,10 @@
         <p>
           L2 / <b-icon icon="circle" shift-v="1.5" font-scale="1"></b-icon> :
           Brake
+        </p>
+
+        <p>
+          <b-icon icon="square" shift-v="1.5" font-scale="1"></b-icon> : Reverse
         </p>
 
         <p>
@@ -206,22 +228,27 @@ export default {
       this.$mqtt.publish("controls/driving", this.selected);
     },
     publishController_A() {
-      this.button = "Acceleration(X/R2) is pressed";
+      this.button = "D";
       this.$mqtt.publish("controls/manual/controller/speed", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_B() {
-      this.button = "Brake(O/L2) is pressed";
+      this.button = "B";
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
+      this.connectedGamepad = "Connected";
+    },
+    publishController_V() {
+      this.button = "R";
       this.$mqtt.publish("controls/manual/controller/speed", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_Left() {
-      this.button = "D-pad Left is pressed";
+      this.button = "L";
       this.$mqtt.publish("controls/manual/controller/steer", this.button);
       this.connectedGamepad = "Connected";
     },
     publishController_Right() {
-      this.button = "D-pad Right is pressed";
+      this.button = "R";
       this.$mqtt.publish("controls/manual/controller/steer", this.button);
       this.connectedGamepad = "Connected";
     },
@@ -238,19 +265,23 @@ export default {
       this.connectedGamepad = "Connected";
     },
     publishButton_A() {
-      this.button = "Acceleration(X/R2) is pressed";
+      this.button = "D";
       this.$mqtt.publish("controls/manual/controller/speed", this.button);
     },
     publishButton_B() {
-      this.button = "Brake(O/L2) is pressed";
+      this.button = "B";
+      this.$mqtt.publish("controls/manual/controller/speed", this.button);
+    },
+    publishButton_V() {
+      this.button = "R";
       this.$mqtt.publish("controls/manual/controller/speed", this.button);
     },
     publishButton_Left() {
-      this.button = "D-pad Left is pressed";
+      this.button = "L";
       this.$mqtt.publish("controls/manual/controller/steer", this.button);
     },
     publishButton_Right() {
-      this.button = "D-pad Right is pressed";
+      this.button = "R";
       this.$mqtt.publish("controls/manual/controller/steer", this.button);
     },
     toggler() {
@@ -282,6 +313,11 @@ export default {
         this.interval = setInterval(() => this.publishButton_B(), 30);
       }
     },
+    startV() {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.publishButton_V(), 30);
+      }
+    },
     startL() {
       if (!this.interval) {
         this.interval = setInterval(() => this.publishButton_Left(), 30);
@@ -296,7 +332,7 @@ export default {
       clearInterval(this.interval);
       this.interval = false;
     },
-    load: function () {
+    load: function() {
       this.show = false;
     },
   },

@@ -28,11 +28,11 @@
         ><b
           ><font size="5"
             ><b-icon
-              icon="compass"
+              icon="terminal"
               shift-v="1"
               style="width: 25px; height: 25px;"
             ></b-icon>
-            Location</font
+            Raspberry Pi</font
           ></b
         ></b-nav-item
       >
@@ -74,7 +74,7 @@
 export default {
   data() {
     return {
-      show: false
+      show: false,
     };
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
     },
     handleGoBack() {
       this.$router.push("admin");
-    }
+    },
   },
   mounted: function() {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -93,7 +93,7 @@ export default {
     } else {
       this.show = false;
     }
-  }
+  },
 };
 </script>
 

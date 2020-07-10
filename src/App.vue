@@ -9,7 +9,9 @@ export default {
   name: "App",
   mounted() {
     this.$mqtt.subscribe("sensors"); //subscribe to a topic
-  }
+    this.$mqtt.subscribe("lidar");
+    this.$mqtt.subscribe("location/ip_address");
+  },
 };
 </script>
 

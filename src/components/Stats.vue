@@ -27,11 +27,11 @@
       <b-col id="map">
         <h4 align="left"><b>Statistics</b></h4>
         <h5 id="BPMTitle" align="left">
-          Incoming data from Shiftr: <span>{{ mqtt_data }}</span>
+          Incoming sensor data from Shiftr: <span>{{ mqtt_data }}</span>
         </h5>
         <h5 id="BPMTitle" align="left">
-          Incoming RBP IP address data from Shiftr:
-          <span>{{ ip_address }}</span>
+          Incoming Lidar data from Shiftr:
+          <span>{{ lidar }}</span>
         </h5>
       </b-col>
     </b-row>
@@ -54,6 +54,7 @@ export default {
     return {
       mqtt_data: "null",
       ip_address: "null",
+      lidar: "null",
       button: "",
       joy: 0,
       show: true,
@@ -74,6 +75,10 @@ export default {
     },
     "controls/manual/controller/speed"(data, topic) {
       console.log(topic + ": " + String.fromCharCode.apply(null, data));
+    },
+    lidar(response) {
+      this.lidar = response.toString();
+      console.log(typeof response);
     },
   },
   methods: {
@@ -103,7 +108,7 @@ export default {
       this.$mqtt.publish("controls/manual/controller/steer", String(this.joy));
       this.joy = 0;
     },
-    load: function () {
+    load: function() {
       this.show = false;
     },
   },
