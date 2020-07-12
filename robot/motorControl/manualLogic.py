@@ -13,6 +13,7 @@ def driveState(state):
 
 def manualControl(movement, direction):
     dist = None
+    #thread with working return function
     with concurrent.futures.ThreadPoolExecutor() as executor:
         future1 = executor.submit(collision.distance_left())
         dist = future1.result()
