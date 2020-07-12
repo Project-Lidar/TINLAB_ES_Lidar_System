@@ -23,7 +23,6 @@ app = Flask(__name__)
 
 # initialize the video stream and allow the camera sensor to
 # warmup
-#vs = VideoStream(usePiCamera=1).start()
 vs = VideoStream(src=0).start()
 
 @app.route("/")
