@@ -1,5 +1,5 @@
-import motorControl.motor as motorMovement
-import ultrasoon.ultrasoon as collision
+import robot.motorControl.motor as motorMovement
+import robot.ultrasoon.ultrasoon as collision
 import concurrent.futures
 import threading
 

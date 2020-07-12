@@ -1,7 +1,7 @@
 import numpy as np
 import asyncio
 import time
-import communicationModule.communicationModule as comm
+import robot.communicationModule.communicationModule as comm
 from rplidar import RPLidar
 
 PORT_NAME = '/dev/ttyACM0'

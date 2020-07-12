@@ -1,4 +1,4 @@
-import motorControl.manualLogic as manual
+import robot.motorControl.manualLogic as manual
 
 def messageLogic(topic, message):
     if topic == 'contols/driving/':

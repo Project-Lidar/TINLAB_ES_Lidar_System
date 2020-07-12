@@ -10,7 +10,7 @@ from imutils.video import VideoStream
 from flask import Response
 from flask import Flask
 from flask import render_template
-from cameraModule.pyimagesearch.motion_detection import SingleMotionDetector
+from robot.cameraModule.pyimagesearch.motion_detection import SingleMotionDetector
 
 # initialize the output frame and a lock used to ensure thread-safe
 # exchanges of the output frames (useful for multiple browsers/tabs

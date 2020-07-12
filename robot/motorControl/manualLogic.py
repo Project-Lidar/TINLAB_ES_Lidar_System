@@ -1,6 +1,6 @@
-import motorControl.motor as motor
-import motorControl.motorLogic as logic
-import ultrasoon.ultrasoon as collision
+import robot.motorControl.motor as motor
+import robot.motorControl.motorLogic as logic
+import robot.ultrasoon.ultrasoon as collision
 import concurrent.futures
 
 minimumDistance = 20

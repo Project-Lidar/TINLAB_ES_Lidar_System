@@ -10,8 +10,8 @@ import imutils
 import time
 import cv2
 import logging
-import cameraModule.cameraModule as cam
-import communicationModule.receiveMessage as getMessage
+import robot.cameraModule.cameraModule as cam
+import robot.communicationModule.receiveMessage as getMessage
 
 from imutils.video import VideoStream
 from flask import Response
