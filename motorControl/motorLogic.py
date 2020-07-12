@@ -1,24 +1,25 @@
 import motorControl.motor as motorMovement
 import ultrasoon.ultrasoon as collision
 import concurrent.futures
+import threading
 
-distL = None
-freeL = False
-minimumDistance = 20
 driveTime = 2
+minimumDistance = 20
 
-def __init__(self):
+def autoDrive():
+    dist = None
     with concurrent.futures.ThreadPoolExecutor() as executor:
         future1 = executor.submit(collision.distance_left())
-        distL = future1.result()
-    if(distL>minimumDistance):
-        freeL=True
+        dist = future1.result()
+    if(dist>minimumDistance):
+        threadForward = threading.Thread(target=selfDrivingMovement(True))
+        threadForward.start()
     else:
-        freeL=False
-    selfDrivingMovement()
+        threadTurn = threading.Thread(target=selfDrivingMovement(False))
+        threadTurn.start()
 
-def selfDrivingMovement():
-    while(freeL):
+def selfDrivingMovement(free):
+    while(free == True):
         motorMovement.drive(driveTime)
-    while(not freeL):
+    while(free == False):
         motorMovement.turn_left(driveTime)
