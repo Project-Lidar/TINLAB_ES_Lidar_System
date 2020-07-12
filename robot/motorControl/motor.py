@@ -1,12 +1,9 @@
-#forward -> check ultrasonic
-#Go right -> check lidar
-#Go Left -> check lidar
-#Go back -> Turn -> check lidar -> don't turn -> check lidar
 import Rpi.GPIO as GPIO
 import time
 
 GPIO.setmode(GPIO.BOARD)
 
+#ports for motors
 motorR1A = 7
 motorR1B = 11
 motorR2A = 12
