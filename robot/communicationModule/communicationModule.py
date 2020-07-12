@@ -24,33 +24,37 @@ from hbmqtt.mqtt.constants import QOS_0, QOS_1, QOS_2
 class MqttCommunicator:
     #@asyncio.coroutine
     def __init__(self):
-        self.C = MQTTClient('Comm_module')  # Initialize the mqtt client
+        # Initialize the mqtt client
+        self.C = MQTTClient('Comm_module')  
 
     @asyncio.coroutine
     def ipAddr(self, k):
         yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io')
+        # Publish message to mqtt broker
         tasks = [
             asyncio.ensure_future(
-                self.C.publish('ipAddress/', k.encode(), qos=0))  # Publish message to mqtt broker
+                self.C.publish('ipAddress/', k.encode(), qos=0))  
         ]
         yield from asyncio.wait(tasks)
-        # logger.info("messages published")  # Logger for development
+        
         # Unsubscribe from topic before disconnect
         yield from self.C.unsubscribe(['ipAddress/'])
         yield from self.C.disconnect()  # Disconnect from mqtt broker
 
     @asyncio.coroutine
     def send(self, k):
-        k = str(k)  # Parse input to string
+        # Parse input to string
+        k = str(k)  
 
         # Connect to mqtt broker
         yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io')
+        # Publish message to mqtt broker
         tasks = [
             asyncio.ensure_future(
-                self.C.publish('sensors/', k.encode(), qos=0))  # Publish message to mqtt broker
+                self.C.publish('sensors/', k.encode(), qos=0))  
         ]
         yield from asyncio.wait(tasks)
-        # logger.info("messages published")  # Logger for development
+        
         # Unsubscribe from topic before disconnect
         yield from self.C.unsubscribe(['sensors/'])
         yield from self.C.disconnect()  # Disconnect from mqtt broker
@@ -62,13 +66,15 @@ class MqttCommunicator:
 
         # Connect to mqtt broker
         yield from self.C.connect('mqtt://eecfbf0c:59ea275059b9c893@broker.shiftr.io')
+        # Publish message to mqtt broker
         tasks = [
             asyncio.ensure_future(
-                self.C.publish('lidar/', parseData.encode(), qos=0))  # Publish message to mqtt broker
+                self.C.publish('lidar/', parseData.encode(), qos=0))
         ]
         yield from asyncio.wait(tasks)
         yield from self.C.unsubscribe(['lidar/'])
-        yield from self.C.disconnect()  # Disconnect from mqtt broker
+        # Disconnect from mqtt broker
+        yield from self.C.disconnect()  
 
     @asyncio.coroutine
     def getController(self):
@@ -97,7 +103,6 @@ class MqttCommunicator:
             yield from self.C.disconnect()
         except ClientException as ce:
             print(ce)
-            #logger.error("Client exception: %s" % ce)
 
 
 def camStream(ip, port):
